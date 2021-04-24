@@ -11,13 +11,19 @@ Tasks
 - Canvas ❌  
 
 Tasks Description:  
-Gamepad - Manage airplane movement throught gamepad on touch devices.  
+Gamepad - 
+1. Manage airplane movement throught gamepad on touch devices. ❌  
   
-HUD - Show Score, lives and miscelanea on top right.  
+HUD -  
+1. Show Score, lives and miscelanea on top right. ❌  
 
-Menu - Stop the game on menu open. Hidde the canvas while on menu. Use gamepad to navigate the option list. Setting to control speed, dificult, etc 
+Menu -  
+1. Stop the game on menu open. ❌  
+2. Hidde the canvas while on menu. ❌  
+3. Use gamepad to navigate the option list. ❌  
+4. Settings to control speed, dificult, etc. ❌  
   
-Canvas -
+Canvas -  
 1. Draw an arrow. ✅  
 2. Move the arrow using keyboard arrows and | or gamepad. ❌  
 3. Draw dots and obstacles. ✅  
