@@ -1,6 +1,6 @@
 const game = () => {
-  let lives = 5;
-  let score = 10;
+  let lives = 10;
+  let score = 0;
   const canvas = $("#gameCanvas");
   const cWidth = canvas.width;
   const cHeight = canvas.height;
