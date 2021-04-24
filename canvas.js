@@ -130,24 +130,52 @@ const game = () => {
     }
   }
 
-
-
+  
   /*** Obstacles */
+  let obstacles = [];
+
   const generateObstacle = () => {
     const halfRightScreen = cWidth - (Math.floor(Math.random() * cWidth / 2 + 1));
     const fHeight = Math.floor(Math.random() * cHeight) + 1;
     drawPixel(halfRightScreen, fHeight, 50, 50, 50, 255);
+    obstacles.push([halfRightScreen, fHeight, 50, 50, 50, 255]);
     ctx.putImageData(cData, 0, 0);
   }
+ 
+  const clearObstacles = obstacles => {
+    obstacles.forEach( obstacle => {
+//_(`Making invisible ${obstacle[5]} from ${obstacles}`);
+      obstacle[5] = 0;
+      drawPixel(...obstacle); 
+    });
+    ctx.putImageData(cData, 0, 0); 
+  }
 
-
+  const drawObstacles = obstacles => {
+    obstacles.forEach( obstacle => drawPixel(...obstacle) );
+    ctx.putImageData(cData, 0, 0);
+  }
+ 
+  const moveObstacles = obstacles => {
+    const oldObstacles = JSON.parse(JSON.stringify(obstacles));
+    obstacles = obstacles.map( obstacle => {
+      --obstacle[0];
+      if (obstacle[0] < 0) {
+        //_("Remove obstacle from memory (out of view)");
+        //_("Increase score HUD. ActualLevel * 10");
+      }
+      return obstacle;
+    });
+    clearObstacles(oldObstacles);
+    drawObstacles(obstacles);
+    ctx.putImageData(cData, 0, 0);
+  } 
   
-  setInterval(generateObstacle, 900);
 
 
 
-
-
+  setInterval(generateObstacle, 1300);
+  setInterval(() => moveObstacles(obstacles), 10);
 
   drawAirplane(airPlane);
   //clearAirplane(airPlane);
