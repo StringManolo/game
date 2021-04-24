@@ -12,29 +12,122 @@ const game = () => {
     cData.data[index + 2] = b;
     cData.data[index + 3] = a;
   }
+  
+  
+  let airPlane = [
+    [4, cHeight / 2, 0, 10, 150, 180], 
+    [5, cHeight / 2, 0, 10, 150, 255],
+    [6, cHeight / 2, 0, 20, 200, 255],
+    [7, cHeight / 2, 0, 20, 200, 255],
+    [8, cHeight / 2, 0, 20, 200, 255],
+    [9, cHeight / 2, 0, 80, 100, 255],
 
-  let airPlane = [ 
+    [7, cHeight / 2 - 1, 0, 20, 20, 200],
+    [7, cHeight / 2 + 1, 0, 20, 20, 200],
+    [6, cHeight / 2 + 2, 0, 20, 20, 200],
+    [6, cHeight / 2 - 2, 0, 20, 20, 200],
+    [5, cHeight / 2 + 3, 0, 20, 20, 200],
+    [5, cHeight / 2 - 3, 0, 20, 20, 200],
+    [4, cHeight / 2 - 4, 0, 0, 0, 40],
+    [4, cHeight / 2 + 4, 0, 0, 0, 40]
+  ];
+
+/*
+  let airPlane = [
     [5, cHeight / 2, 0, 20, 150, 255],
     [6, cHeight / 2, 0, 20, 150, 255],
     [7, cHeight / 2, 0, 20, 150, 255],
     [8, cHeight / 2, 0, 20, 150, 255],
-    [9, cHeight / 2, 0, 20, 150, 255],
-
-    [8, cHeight / 2 - 1, 0, 20, 20, 200],
-    [8, cHeight / 2 + 1, 0, 20, 20, 200],
-  ]; 
-
+    [5, cHeight / 2 - 1, 0, 20, 150, 255],
+    [6, cHeight / 2 - 1, 0, 20, 150, 255],
+    [7, cHeight / 2 + 1, 0, 20, 150, 255],
+    [8, cHeight / 2 + 1, 0, 20, 150, 255]
+  ];
+*/
 
   const drawAirplane = airPlane => {
     airPlane.forEach( part => drawPixel(...part) );
     ctx.putImageData(cData, 0, 0);
   }
 
-  drawAirplane(airPlane);
-
-  const moveTop = () => {
-     
+  const clearAirplane = airPlane => {
+    airPlane.forEach( part => {
+      part[5] = 0;
+      drawPixel(...part);
+    });
+    ctx.putImageData(cData, 0, 0);
   }
+
+  const move = (airPlane, direction) => {
+    const oldPlane = JSON.parse(JSON.stringify(airPlane));
+    airPlane = airPlane.map( part => {
+      switch (direction) {
+        case "top":
+          --part[1];
+          if (part[1] < 0) {
+            part[1] = cHeight;
+          }
+        break;
+
+        case "bottom":
+          ++part[1];
+          if (part[1] > cHeight) {
+            part[1] = 0;
+          }
+        break;
+
+        case "right":
+          ++part[0];
+        break;
+
+        case "left":
+          --part[0];
+        break; 
+
+        default:
+          _("FATAL ERROR: No direction chosed to move")
+      }
+      //drawPixel(...part);
+      return part;
+    });
+    clearAirplane(oldPlane);
+    drawAirplane(airPlane);
+    ctx.putImageData(cData, 0, 0);
+  }
+
+
+  const moveTop = () => move(airPlane, "top");
+
+  const moveBot = () => move(airPlane, "bottom");
+
+  const moveRight = () => move(airPlane, "right");
+
+  const moveLeft = () => move(airPlane, "left");
+
+  /* For menu ambient while not playing */
+  const moveRandom = () => {
+    switch (Math.floor(Math.random()*4)+1) {
+      case 1:
+        moveTop();
+      break;
+
+      case 2:
+        moveBot();
+      break;
+
+      case 3:
+        moveRight();
+      break;
+
+      case 4:
+        moveLeft();
+    }
+  }
+
+  drawAirplane(airPlane);
+  //clearAirplane(airPlane);
+ 
+  setInterval(moveRandom, 100)
 
 }
 
