@@ -78,10 +78,16 @@ const game = () => {
 
         case "right":
           ++part[0];
+          if (part[0] > cWidth) {
+            part[0] = 0;
+          }
         break;
 
         case "left":
           --part[0];
+          if (part[0] < 0) {
+            part[0] = cWidth;
+          }
         break; 
 
         default:
@@ -126,8 +132,9 @@ const game = () => {
 
   drawAirplane(airPlane);
   //clearAirplane(airPlane);
- 
-  setInterval(moveRandom, 100)
+
+  setInterval(moveRandom, 60);
+
 
 }
 
