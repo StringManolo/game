@@ -1,9 +1,12 @@
 const game = () => {
+  let lives = 5;
+  let score = 0;
   const canvas = $("#gameCanvas");
   const cWidth = canvas.width;
   const cHeight = canvas.height;
   const ctx = canvas.getContext("2d");
   let cData = ctx.getImageData(0, 0, cWidth, cHeight);
+  const vCanvas = cData;
 
   const drawPixel = (x, y, r, g, b, a) => {
     const index = (x + y * cWidth) * 4;
@@ -155,6 +158,21 @@ const game = () => {
     obstacles.forEach( obstacle => drawPixel(...obstacle) );
     ctx.putImageData(cData, 0, 0);
   }
+
+  const detectColision = (airplane, obstacles) => {
+    obstacles.forEach( obstacle => {
+      for(let i in airplane) {
+        if (obstacle[0] === airplane[i][0] && obstacle[1] === airplane[i][1]) {
+          _("--Lives");
+          --lives;
+          if (lives === 0) {
+            alert("Gameover");
+            gameover(intervals);
+          }
+        }
+      }
+    });
+  }
  
   const moveObstacles = obstacles => {
     const oldObstacles = JSON.parse(JSON.stringify(obstacles));
@@ -163,26 +181,45 @@ const game = () => {
       if (obstacle[0] < 0) {
         //_("Remove obstacle from memory (out of view)");
         //_("Increase score HUD. ActualLevel * 10");
+        //score += 1;
       }
       return obstacle;
     });
     clearObstacles(oldObstacles);
     drawObstacles(obstacles);
+    detectColision(airPlane, obstacles);
     ctx.putImageData(cData, 0, 0);
   } 
   
+  const clearScreen = () => {
+    let x = 0;
+    let y = 0;
+    for (let x = 0; x < cWidth; ++x) {
+      for (let y = 0; y < cHeight; ++y) {
+        drawPixel(x, y, 255, 255, 255, 255);
+      }
+    }
+  }
+
+  const gameover = intervals => {
+    intervals.forEach( interval => clearInterval(interval));
+    intervals = [];
+    clearScreen();
+  }
 
 
+  let intervals = [];
 
-  setInterval(generateObstacle, 1300);
-  setInterval(() => moveObstacles(obstacles), 10);
+  intervals.push(setInterval(generateObstacle, 50));
+  intervals.push(setInterval(() => moveObstacles(obstacles), 7));
 
   drawAirplane(airPlane);
   //clearAirplane(airPlane);
 
-  setInterval(moveRandom, 60);
+  intervals.push(setInterval(moveRandom, 400));
 
 
 }
 
 game();
+
