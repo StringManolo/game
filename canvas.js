@@ -118,23 +118,70 @@ const game = () => {
 
   const moveLeft = () => move(airPlane, "left");
 
-  /* For menu ambient while not playing */
+  /* For menu ambient while not playing and for fun */
+  const IA = (airplane, obstacles) => {
+    if (!obstacles) {
+      return;
+    }
+
+    let detectionSquare = [];
+    /* Make detection square on top of airplane */
+    for (let i = 0; i < 120; ++i) {
+      for (let j = 0; j < 10; ++j) {
+        detectionSquare.push([airplane[0][0] + i, airplane[0][1] +j, 255, 0, 0, 160]);
+        detectionSquare.push([airplane[0][0] + i, airplane[0][1] -j, 255, 0, 0, 160]);
+        if (i < 4) {
+          detectionSquare.push([airplane[0][0] - i, airplane[0][1] +j, 255, 0, 0, 160]);
+          detectionSquare.push([airplane[0][0] - i, airplane[0][1] -j, 255, 0, 0, 160]);
+        }
+      }
+    }
+
+    detectionSquare.forEach( px => {
+      obstacles.forEach( obstacle => {
+        if(px[0] === obstacle[0] && px[1] === obstacle[1]) {
+          //alert(`Posible colision at ${px[0]} ${px[1]}`);
+
+          if (px[1] > airplane[0][1]) {
+            moveTop();
+//alert("Moving top to evade colision");
+            return true;
+          } else {
+            moveBot();
+//alert("Moving bottom to evade colision")
+            return true;
+          }
+        }
+      });
+    });
+
+
+
+    /* const drawDetection = square => {
+      square.forEach( part => drawPixel(...part) );
+      ctx.putImageData(cData, 0, 0);
+    } */
+
+    //drawDetection(detectionSquare);
+  }
+
+
   const moveRandom = () => {
     switch (Math.floor(Math.random()*4)+1) {
       case 1:
-        moveTop();
+        IA(airPlane, obstacles) || moveTop();
       break;
 
       case 2:
-        moveBot();
+        IA(airPlane, obstacles) || moveBot();
       break;
 
       case 3:
-        moveRight();
+        IA(airPlane, obstacles) || moveRight();
       break;
 
       case 4:
-        moveLeft();
+        IA(airPlane, obstacles) || moveLeft();
     }
   }
 
@@ -248,7 +295,7 @@ Obstacles speed: ${speedObstacles}`;
   let hGO = setInterval(generateObstacle, timeObstacles);
   let hMO = setInterval(() => moveObstacles(obstacles), speedObstacles);
   
-  intervals.push(setInterval(moveRandom, 200));
+  intervals.push(setInterval(moveRandom, 5));
   intervals.push(setInterval(increaseLevel, 15000));
   
 
