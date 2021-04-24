@@ -17,7 +17,7 @@ HUD - Show Score, lives and miscelanea on top right.
 
 Menu - Stop the game on menu open. Hidde the canvas while no menu. Use gamepad to navigate the option list.  
   
-Canvas -  
+Canvas -
 1. Draw an arrow. ✅  
 2. Move the arrow using keyboard arrows and | or gamepad. ❌  
 3. Draw dots and obstacles. ✅  
