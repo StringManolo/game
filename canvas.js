@@ -1,6 +1,11 @@
 const game = () => {
   let lives = 10;
   let score = 0;
+
+  let level = 1;
+  let timeObstacles = 2000; /* 1000 = 1 obstacle generated per second */
+  let speedObstacles = 25; /* 100 = 10 pixels per second */
+
   const canvas = $("#gameCanvas");
   const cWidth = canvas.width;
   const cHeight = canvas.height;
@@ -197,6 +202,25 @@ const game = () => {
     ctx.putImageData(cData, 0, 0);
   } 
   
+
+  let levelHud = $("#level");
+  let statsHud = $("#stats");
+  statsHud.innerText = `Obstacle generated each ${timeObstacles / 1000} seconds
+Obstacles speed: ${speedObstacles}`;
+  const increaseLevel = () => {
+    ++level;
+    levelHud.innerText = `Level: ${level}`;
+    timeObstacles -= timeObstacles / 2;
+    speedObstacles -= speedObstacles / 8;
+    statsHud.innerText = `Obstacle generated each ${timeObstacles / 1000} seconds
+Obstacles speed: ${speedObstacles}`;
+    clearInterval(hGO);
+    hGO = setInterval(generateObstacle, timeObstacles);
+    clearInterval(hMO);
+    hMO = setInterval(() => moveObstacles(obstacles), speedObstacles);
+  }
+
+
   const clearScreen = () => {
     let x = 0;
     let y = 0;
@@ -208,21 +232,29 @@ const game = () => {
   }
 
   const gameover = intervals => {
+    intervals.push(hGO);
+    intervals.push(hMO);
     intervals.forEach( interval => clearInterval(interval));
     intervals = [];
     clearScreen();
   }
 
 
+
   let intervals = [];
 
-  intervals.push(setInterval(generateObstacle, 200));
-  intervals.push(setInterval(() => moveObstacles(obstacles), 17));
-
   drawAirplane(airPlane);
+
+  let hGO = setInterval(generateObstacle, timeObstacles);
+  let hMO = setInterval(() => moveObstacles(obstacles), speedObstacles);
+  
+  intervals.push(setInterval(moveRandom, 200));
+  intervals.push(setInterval(increaseLevel, 15000));
+  
+
+  //drawAirplane(airPlane);
   //clearAirplane(airPlane);
 
-  intervals.push(setInterval(moveRandom, 100));
 
 
 }

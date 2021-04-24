@@ -30,6 +30,6 @@ Canvas -
 4. Detect colisions. ✅  
 5. Decrease lives on colisions. ✅  
 6. Detect when dots and obstacles cross the screen. Increase score. ✅ 
-7. Increase obstacles speed and level each 15 seconds. ❌  
+7. Increase obstacles speed and level each 15 seconds. ✅ 
  
 
