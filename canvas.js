@@ -130,6 +130,25 @@ const game = () => {
     }
   }
 
+
+
+  /*** Obstacles */
+  const generateObstacle = () => {
+    const halfRightScreen = cWidth - (Math.floor(Math.random() * cWidth / 2 + 1));
+    const fHeight = Math.floor(Math.random() * cHeight) + 1;
+    drawPixel(halfRightScreen, fHeight, 50, 50, 50, 255);
+    ctx.putImageData(cData, 0, 0);
+  }
+
+
+  
+  setInterval(generateObstacle, 900);
+
+
+
+
+
+
   drawAirplane(airPlane);
   //clearAirplane(airPlane);
 
