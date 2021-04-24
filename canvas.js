@@ -1,6 +1,6 @@
 const game = () => {
   let lives = 5;
-  let score = 0;
+  let score = 10;
   const canvas = $("#gameCanvas");
   const cWidth = canvas.width;
   const cHeight = canvas.height;
@@ -159,12 +159,13 @@ const game = () => {
     ctx.putImageData(cData, 0, 0);
   }
 
+  let livesHud = $("#lives");
   const detectColision = (airplane, obstacles) => {
     obstacles.forEach( obstacle => {
       for(let i in airplane) {
         if (obstacle[0] === airplane[i][0] && obstacle[1] === airplane[i][1]) {
-          _("--Lives");
           --lives;
+          livesHud.innerText = `Lives: ${lives}`;
           if (lives === 0) {
             alert("Gameover");
             gameover(intervals);
@@ -174,17 +175,22 @@ const game = () => {
     });
   }
  
+  const scoreHud = $("#score");
+
   const moveObstacles = obstacles => {
     const oldObstacles = JSON.parse(JSON.stringify(obstacles));
-    obstacles = obstacles.map( obstacle => {
+    for (let i = 0; i < obstacles.length; ++i) {
+      let obstacle = obstacles[i];
       --obstacle[0];
       if (obstacle[0] < 0) {
         //_("Remove obstacle from memory (out of view)");
         //_("Increase score HUD. ActualLevel * 10");
-        //score += 1;
+        obstacles.splice(i--, 1);
+        ++score;
+        scoreHud.innerText = `Score: ${score}`;
       }
-      return obstacle;
-    });
+    }
+
     clearObstacles(oldObstacles);
     drawObstacles(obstacles);
     detectColision(airPlane, obstacles);
@@ -210,13 +216,13 @@ const game = () => {
 
   let intervals = [];
 
-  intervals.push(setInterval(generateObstacle, 50));
-  intervals.push(setInterval(() => moveObstacles(obstacles), 7));
+  intervals.push(setInterval(generateObstacle, 200));
+  intervals.push(setInterval(() => moveObstacles(obstacles), 17));
 
   drawAirplane(airPlane);
   //clearAirplane(airPlane);
 
-  intervals.push(setInterval(moveRandom, 400));
+  intervals.push(setInterval(moveRandom, 100));
 
 
 }

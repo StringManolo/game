@@ -15,7 +15,7 @@ Gamepad - Manage airplane movement throught gamepad on touch devices.
   
 HUD - Show Score, lives and miscelanea on top right.  
 
-Menu - Stop the game on menu open. Hidde the canvas while no menu. Use gamepad to navigate the option list. Setting to control speed, dificult, etc 
+Menu - Stop the game on menu open. Hidde the canvas while on menu. Use gamepad to navigate the option list. Setting to control speed, dificult, etc 
   
 Canvas -
 1. Draw an arrow. ✅  
@@ -23,7 +23,7 @@ Canvas -
 3. Draw dots and obstacles. ✅  
 4. Detect colisions. ✅  
 5. Decrease lives on colisions. ✅  
-6. Detect when dots and obstacles cross the screen. Increase score. ❌  
-7. Increase obtacles speed and level each 15 seconds. ❌  
-  
+6. Detect when dots and obstacles cross the screen. Increase score. ✅ 
+7. Increase obstacles speed and level each 15 seconds. ❌  
+ 
 
