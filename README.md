@@ -31,5 +31,6 @@ Canvas -
 5. Decrease lives on colisions. ✅  
 6. Detect when dots and obstacles cross the screen. Increase score. ✅ 
 7. Increase obstacles speed and level each 15 seconds. ✅ 
- 
-
+8. Draw Sky background. ❌   
+9. Music and effects. ❌  
+10. Colision effects. ❌  
