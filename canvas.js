@@ -282,6 +282,23 @@ Obstacles speed: ${speedObstacles}`;
     }); 
   }
 
+  let IAstatus = false;
+  let hIA;
+  const activateIA = () => {
+    if (!IAstatus) {
+      hIA = setInterval(() => IA(airPlane, obstacles), 5);
+      IAstatus = true;
+    } else {
+      clearInterval(hIA);
+      IAstatus = false;
+    }
+  }
+
+  ael($("#IA"), "click", () => {
+    activateIA();
+  });
+  
+
   const clearScreen = () => {
     let x = 0;
     let y = 0;
