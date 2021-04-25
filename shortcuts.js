@@ -9,5 +9,6 @@ const ael = (elem, evnt, callback) => {
   elem.addEventListener(evnt, () => {
     callback(); 
   });
+  return elem;
 };
 

@@ -40,19 +40,6 @@ const game = () => {
     [4, cHeight / 2 + 4, 0, 0, 0, 40]
   ];
 
-/*
-  let airPlane = [
-    [5, cHeight / 2, 0, 20, 150, 255],
-    [6, cHeight / 2, 0, 20, 150, 255],
-    [7, cHeight / 2, 0, 20, 150, 255],
-    [8, cHeight / 2, 0, 20, 150, 255],
-    [5, cHeight / 2 - 1, 0, 20, 150, 255],
-    [6, cHeight / 2 - 1, 0, 20, 150, 255],
-    [7, cHeight / 2 + 1, 0, 20, 150, 255],
-    [8, cHeight / 2 + 1, 0, 20, 150, 255]
-  ];
-*/
-
   const drawAirplane = airPlane => {
     airPlane.forEach( part => drawPixel(...part) );
     ctx.putImageData(cData, 0, 0);
@@ -267,6 +254,33 @@ Obstacles speed: ${speedObstacles}`;
     hMO = setInterval(() => moveObstacles(obstacles), speedObstacles);
   }
 
+/* For debug */
+  const gamepad = () => {
+    $("#controls").style.fontSize = "3em";
+    ael($("#controls #top"), "click", () => moveTop());
+    ael($("#controls #left"), "click", () => moveLeft());
+    ael($("#right"), "click", () => moveRight());
+    ael($("#bottom"), "click", () => moveBot());
+
+    ael(document, "keydown", e => {
+      switch(+e.keyCode) {
+        case 38:
+          moveTop();
+        break;
+
+        case 37:
+          moveLeft();
+        break;
+
+        case 39: 
+          moveRight();
+        break;
+
+        case 40:
+          moveBot();
+      }
+    }); 
+  }
 
   const clearScreen = () => {
     let x = 0;
@@ -287,15 +301,16 @@ Obstacles speed: ${speedObstacles}`;
   }
 
 
-
   let intervals = [];
 
   drawAirplane(airPlane);
 
+  gamepad();
+
   let hGO = setInterval(generateObstacle, timeObstacles);
   let hMO = setInterval(() => moveObstacles(obstacles), speedObstacles);
   
-  intervals.push(setInterval(moveRandom, 5));
+  /* This is for ambient or for fun intervals.push(setInterval(moveRandom, 5)); */
   intervals.push(setInterval(increaseLevel, 15000));
   
 
@@ -306,5 +321,5 @@ Obstacles speed: ${speedObstacles}`;
 
 }
 
-game();
+ael(window, "load", () => game());
 
